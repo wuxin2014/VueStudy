@@ -1,8 +1,17 @@
-import Vue from 'vue'
-import App from './App.vue'
+import Vue from 'vue';
+import { Button, Loading } from 'vant';
+import router from './router';
+import App from './App.vue';
+import loading from './plugins/loading';
 
-Vue.config.productionTip = false
+import 'vant/lib/index.css';
+
+Vue.use(Button).use(Loading);
+Vue.use(loading);
+
+Vue.config.productionTip = false;
 
 new Vue({
-  render: h => h(App),
-}).$mount('#app')
+  router,
+  render: h => h(App)
+}).$mount('#app');
