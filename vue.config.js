@@ -1,6 +1,7 @@
+import { resolve } from 'path';
 
-const IS_PROD = process.env.NODE_ENV === 'production'
-const cdnDomain = 'http://ply4cszel.bkt.clouddn.com'
+const IS_PROD = process.env.NODE_ENV === 'production';
+const cdnDomain = 'http://ply4cszel.bkt.clouddn.com';
 
 module.exports = {
   publicPath: IS_PROD ? cdnDomain : '/', //
@@ -8,9 +9,9 @@ module.exports = {
   chainWebpack: config => {
     // 这里是对环境的配置，不同环境对应不同的BASE_URL，以便axios的请求地址不同
     config.plugin('define').tap(args => {
-      args[0]['process.env'].BASE_URL = JSON.stringify(process.env.BASE_URL)
-      return args
-    })
+      args[0]['process.env'].BASE_URL = JSON.stringify(process.env.BASE_URL);
+      return args;
+    });
     // #region 忽略生成环境打包的文件
     // const externals = {
     //   vue: 'Vue',
@@ -44,7 +45,8 @@ module.exports = {
     //     return args
     //   })
     // #endregion
-  },
+    config.resolve.alias.set('@', resolve('src'));
+  }
   // css: {
   //   loaderOptions: {
   //     sass: {

@@ -1,15 +1,15 @@
 import Vue from 'vue';
 // eslint-disable-next-line import/extensions
-import Loading from '../components/loading';
+import Loading from '@/components/loading';
 
 const VueLoading = Vue.extend(Loading);
 
+// eslint-disable-next-line func-names
 VueLoading.prototype.close = function() {
   this.hide();
 };
 
 function $loading() {
-  console.log('====');
   let loading = null;
   // 第一次调用
   if (!loading) {
@@ -33,7 +33,6 @@ function $loading() {
 export default {
   // eslint-disable-next-line no-shadow
   install(Vue) {
-    console.log('====install');
     // eslint-disable-next-line no-multi-assign
     Vue.loading = Vue.prototype.$loading = $loading;
   }
