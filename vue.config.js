@@ -1,4 +1,6 @@
-import { resolve } from 'path';
+import path, { resolve } from 'path';
+
+// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const IS_PROD = process.env.NODE_ENV === 'production';
 const cdnDomain = 'http://ply4cszel.bkt.clouddn.com';
@@ -6,12 +8,40 @@ const cdnDomain = 'http://ply4cszel.bkt.clouddn.com';
 module.exports = {
   publicPath: IS_PROD ? cdnDomain : '/', //
   outputDir: 'dist',
+  configureWebpack: config => {
+    if (process.env.NODE_ENV === 'production') {
+      // 修改打包后js文件名
+      config.output = {
+        path: path.join(__dirname, './dist'),
+        filename: 'js/[name].[contenthash:8].js'
+      };
+      // 修改打包后css文件名
+      // config.plugins = [
+      //   new MiniCssExtractPlugin({
+      //     filename: `css/[name].[contenthash:8].css`
+      //   })
+      // ];
+    }
+  },
   chainWebpack: config => {
     // 这里是对环境的配置，不同环境对应不同的BASE_URL，以便axios的请求地址不同
     config.plugin('define').tap(args => {
       args[0]['process.env'].BASE_URL = JSON.stringify(process.env.BASE_URL);
       return args;
     });
+    config.module
+      .rule('images')
+      .use('url-loader')
+      .loader('url-loader')
+      .tap(options => Object.assign(options, { limit: 10240 }));
+    // if (process.env.NODE_ENV === 'production') {
+    //   config.plugin('extract-css').tap(() => [
+    //     {
+    //       path: path.join(__dirname, './dist'),
+    //       filename: 'css/[name].[contenthash:8].css'
+    //     }
+    //   ]);
+    // }
     // #region 忽略生成环境打包的文件
     // const externals = {
     //   vue: 'Vue',
@@ -46,12 +76,23 @@ module.exports = {
     //   })
     // #endregion
     config.resolve.alias.set('@', resolve('src'));
+  },
+  css: {
+    modules: true, // default: true
+    loaderOptions: {
+      css: {
+        localIdentName: '[name]-[hash]',
+        camelCase: 'only'
+      }
+    }
+  },
+  devServer: {
+    proxy: {
+      '/api': {
+        target: '',
+        ws: true,
+        changeOrigin: true
+      }
+    }
   }
-  // css: {
-  //   loaderOptions: {
-  //     sass: {
-  //       // data: `@import "~@/styles/variables.scss";`
-  //     }
-  //   }
-  // }
 };

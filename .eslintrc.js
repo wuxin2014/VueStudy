@@ -14,7 +14,7 @@ module.exports = {
       "singleQuote": true
     }],
     'comma-dangle': ["error", "never"],
-    // 'no-console': 'error',
+    'no-console': 'off',
     'no-param-reassign': 'off'
   },
   parserOptions: {
