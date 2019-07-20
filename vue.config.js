@@ -31,6 +31,7 @@ module.exports = {
     });
     config.module
       .rule('images')
+      .test(/\.(png|jpe?g|gif|webp)(\?.*)?$/)
       .use('url-loader')
       .loader('url-loader')
       .tap(options => Object.assign(options, { limit: 10240 }));
@@ -42,6 +43,21 @@ module.exports = {
     //     }
     //   ]);
     // }
+    if (process.env.NODE_ENV === 'production') {
+      config.plugin('uglify').tap(([options]) => {
+        // 去除 console.log
+        return [
+          Object.assign(options, {
+            uglifyOptions: {
+              compress: {
+                drop_console: true,
+                pure_funcs: ['console.log']
+              }
+            }
+          })
+        ];
+      });
+    }
     // #region 忽略生成环境打包的文件
     // const externals = {
     //   vue: 'Vue',
@@ -84,6 +100,12 @@ module.exports = {
         localIdentName: '[name]-[hash]',
         camelCase: 'only'
       }
+      // 配置在移动端以[640,750]方式来处理rem的基本代码体
+      // postcss: {
+      //   plugins: [require('postcss-px2rem')({
+      //     remUnit: 75
+      //   })]
+      // }
     }
   },
   devServer: {
