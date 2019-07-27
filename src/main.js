@@ -1,12 +1,16 @@
 import Vue from 'vue';
-import { Button, Loading } from 'vant';
+import { Button, Loading, ImagePreview, Lazyload } from 'vant';
 import router from './router';
 import App from './App.vue';
 import loading from './plugins/loading';
 
 import 'vant/lib/index.css';
 
-Vue.use(Button).use(Loading);
+Vue.use(Button)
+  .use(Loading)
+  .use(ImagePreview)
+  .use(Lazyload);
+
 Vue.use(loading);
 
 Vue.config.productionTip = false;
