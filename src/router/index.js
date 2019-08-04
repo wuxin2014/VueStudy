@@ -3,8 +3,7 @@ import VueRouter from 'vue-router';
 // eslint-disable-next-line import/extensions
 import Home from '../views/Home';
 // eslint-disable-next-line import/extensions
-import BetterScrollDemo from '../views/BetterScrollDemo';
-// eslint-disable-next-line import/extensions
+import pullRefreshDemo from '../views/pullRefreshDemo';
 
 Vue.use(VueRouter);
 
@@ -16,11 +15,7 @@ const routes = new VueRouter({
     },
     {
       path: '/test',
-      component: BetterScrollDemo
-    },
-    {
-      path: '/test2',
-      component: BetterScrollDemo
+      component: pullRefreshDemo
     }
   ]
 });

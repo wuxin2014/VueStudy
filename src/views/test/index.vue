@@ -266,7 +266,8 @@ export default {
           let newResList = [];
 
           resList.forEach(dataItem => {
-            let { materials, materialName, id, showTime } = dataItem;
+            let { materials } = dataItem;
+            let { materialName, id, showTime } = dataItem;
             materials = materials || [];
             if (materials.length > 0) {
               materials = materials.map(item => {
