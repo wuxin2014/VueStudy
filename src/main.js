@@ -3,7 +3,7 @@ import { Button, Loading, ImagePreview, Lazyload, Icon } from 'vant';
 import router from './router';
 import App from './App.vue';
 import loading from './plugins/loading';
-
+import './index.css';
 import 'vant/lib/index.css';
 
 Vue.use(Button)
